@@ -29,6 +29,3 @@ initialDB.connect((err) => {
     }
 })
 
-    
-    // .catch((error) => console.log(`Failed to create ${database}`, error))
-
