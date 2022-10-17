@@ -16,7 +16,6 @@ class Home extends React.Component {
       logPassword: '',
       isValidEmail: null,
       isValidPassword: null,
-      isLoggedIn: false,
       submitted: false,
       alertMessage: {}
     };
@@ -91,7 +90,6 @@ class Home extends React.Component {
         this.setState({alertMessage: json})
         if (json['success']) {
           localStorage.setItem('token', json['token'])
-          this.setState({isLoggedIn: true})
           this.setState({logEmail: json['email']})
           return this.props.setIsLoggedIn()
         } else {
