@@ -102,9 +102,9 @@ class Home extends React.Component {
     .finally(() => {
       this.setState({logPassword: ''});
       this.setState({submitted: true})
-      setTimeout(() => {this.setState({submitted: false})}, 4000) 
+      setTimeout(() => {this.setState({submitted: false})}, 4000)
+      return this.props.setJustRegistered()
     })
-    
   }
   
   handleLogout = () => {
@@ -158,7 +158,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      setJustRegistered: () => dispatch({type: 'JUST_REGISTERED', payload: true}),
+      setJustRegistered: () => dispatch({type: 'JUST_REGISTERED'}),
       setIsLoggedIn: () => dispatch({type: 'LOGGED_IN'}),
     }
 };

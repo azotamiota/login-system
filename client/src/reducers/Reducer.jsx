@@ -6,7 +6,7 @@ const initState = {
 const Reducer = (state=initState, action) => {
     switch(action.type){
         case 'JUST_REGISTERED': 'LOGGED_IN'
-            return { ...state, didJustRegister: true};
+            return { ...state, didJustRegister: !state.didJustRegister};
         case 'LOGGED_IN':
             return { ...state, isLoggedIn: !state.isLoggedIn};
         default:
