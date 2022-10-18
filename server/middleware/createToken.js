@@ -7,7 +7,7 @@ async function createToken (userData) {
             username: currentUsername[0].username
         },
             process.env['SECRET_PASSWORD'],
-            {expiresIn: 60 * 60}
+            { expiresIn: 60 * 60}
         )
     
         return token;
