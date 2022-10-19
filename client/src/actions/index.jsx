@@ -34,10 +34,10 @@ export const setPassword = (passwordInput) => {
 
 }
 
-export const submitReg = (beenSubmitted) => {
+export const submitForm = (beenSubmitted) => {
 
     return {
-        type: "SUBMIT_REG",
+        type: "SUBMIT_FORM",
         payload: beenSubmitted
     }
 
@@ -48,6 +48,15 @@ export const setAlertMessage = (json) => {
     return {
         type: "ALERT_MSG",
         payload: json
+    }
+
+}
+
+export const setIsLoggedIn = (isLoggedIn) => {
+
+    return {
+        type: "LOG_IN",
+        payload: isLoggedIn
     }
 
 }

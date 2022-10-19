@@ -3,7 +3,7 @@ const initState = {
       isValidPassword: null,
       email: '',
       password: '',
-      regSubmitted: false,
+      formSubmitted: false,
       alertMessage: {},
       isLoggedIn: false
     };
@@ -18,12 +18,12 @@ const Reducer = (state=initState, action) => {
             return { ...state, email: action.payload};
         case 'SET_PASSWORD':
             return { ...state, password: action.payload};
-        case 'SUBMIT_REG':
-            return { ...state, regSubmitted: action.payload};
+        case 'SUBMIT_FORM':
+            return { ...state, formSubmitted: action.payload};
         case 'ALERT_MSG':
             return { ...state, alertMessage: action.payload};        
-        case 'SET_ISLOGGEDIN':
-            return { ...state, isLoggedin: true};
+        case 'LOG_IN':
+            return { ...state, isLoggedIn: true};
         default:
             return state
     };

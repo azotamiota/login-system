@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setIsValidEmail, setIsValidPassword, setEmail, setPassword, setAlertMessage, submitReg } from '../actions'
+import { setIsValidEmail, setIsValidPassword, setEmail, setPassword, setAlertMessage, submitForm, setIsLoggedIn } from '../actions'
 
 const Form = (props) => {
 
@@ -12,9 +12,8 @@ const Form = (props) => {
   const isValidPassword = useSelector(state => state.isValidPassword)
   const email = useSelector(state => state.email)
   const password = useSelector(state => state.password)
-  const isRegSubmitted = useSelector(state => state.regSubmitted)
+  const formSubmitted = useSelector(state => state.formSubmitted)
   const alertMessage = useSelector(state => state.alertMessage)
-
 
   const handleChange = (input, group) => {
     if (group === 'email') {
@@ -28,19 +27,16 @@ const Form = (props) => {
     } else {
       if (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(input)) {
         dispatch(setIsValidPassword(true))
-
       } else {
         dispatch(setIsValidPassword(false))
       }
       dispatch(setPassword(input))
-
     }
   }
 
   const handleRegister = (event) => {
       event.preventDefault()
       console.log('handleRegister got executed')
-
       fetch(`http://localhost:3000/register`, {
       method: 'POST',
       headers:{
@@ -48,59 +44,58 @@ const Form = (props) => {
       },
       body: JSON.stringify({email: email, password: password})
       }).then((response) => response.json())
-        .then((json) => {
-            dispatch(setAlertMessage(json))
-            console.log(json)
-      }).then(() => {
-          dispatch(submitReg(true))    
+      .then((json) => {
+          dispatch(setAlertMessage(json))
+          console.log(json)
+          json['success'] && navigate('/login')
       })
-      .catch((error) =>  console.log(error.message))
+      .catch((error) =>  {
+        console.log(error.message);
+        dispatch(setAlertMessage(error))
+      })
       .finally(() => {
-          dispatch(submitReg(true))
+          dispatch(submitForm(true))
           dispatch(setEmail(''))
           dispatch(setPassword(''))
-          setTimeout(() => dispatch(submitReg(false)), 5000) 
-          // navigate('/login')
+          setTimeout(() => dispatch(submitForm(false)), 5000) 
       })
     }
 
-  // handleLogin = (event) => {
-  //   console.log('handleLogin executed')
-  //   event.preventDefault()
-  //   fetch(`http://localhost:3000/login`, {
-  //   method: 'POST',
-  //   headers:{
-  //       'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({email: this.state.email, password: this.state.password})
-  //   }).then((response) => response.json())
-  //     .then((json) => {
-  //         this.setState({alertMessage: json})
-  //         if (json['success']) {
-  //           localStorage.setItem('token', json['token'])
-  //           console.log('this.props: ', this.props)
-  //           this.props.setIsLoggedIn()
-  //         } else {
-  //           throw "Unable to authenticate!"
-  //         }
-  //         console.log(json)
-  //         // this.props.history.push("/thank-you");
-  //   })
-  //   // .then(() => {
-  //   //   if (group === 'register') {
-  //   //     console.log('change to setisLogged in')
-  //   //     return this.props.setIsLoggedIn()
-  //   //   }
-  //   // })
-  //   .catch((error) =>  console.log(error.message));
-  //   this.setState({submitted: true})
-  //   this.setState({email: ''});
-  //   this.setState({password: ''});
-  //   setTimeout(() => {this.setState({submitted: false})}, 5000) 
-  // }
+  const handleLogin = (event) => {
+    console.log('handleLogin executed')
+    event.preventDefault()
+    fetch(`http://localhost:3000/login`, {
+    method: 'POST',
+    headers:{
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({email: email, password: password})
+    }).then((response) => response.json())
+    .then((json) => {
+        dispatch(setAlertMessage(json))
+        console.log(json)
+        if (json['success']) {
+          localStorage.setItem('token', json['token'])
+          dispatch(setIsLoggedIn(true))
+          navigate('/dashboard')
+        } else {
+          throw {message: json['message']}
+        }
+    })
+    .catch((error) =>  {
+      console.log('error message in catch: ', error);
+      dispatch(setAlertMessage(error))
+    })
+    .finally(() => {
+        dispatch(submitForm(true))
+        dispatch(setEmail(''))
+        dispatch(setPassword(''))
+        setTimeout(() => dispatch(submitForm(false)), 5000) 
+    })    
+  }
     
     return( <>
-     <form onSubmit={(e) => props.type === 'register' ? handleRegister(e) : <HandleLogin />}> 
+     <form onSubmit={(e) => props.type === 'register' ? handleRegister(e) : handleLogin(e)}> 
       <div className='row'>
         <label>Email</label>
         <input required id="email" type="text" name='email' placeholder="Enter your email" value={email} onChange={(e) => {handleChange(e.target.value, 'email')}} />
@@ -123,13 +118,12 @@ const Form = (props) => {
               <li>At least one special character</li>
               <li>Minimum eight characters</li>
             </ul>
-          </div> : isRegSubmitted && 
+          </div> : formSubmitted && 
             <div className={`alert alert-${alertMessage['success'] ? 'success' : 'danger'} validation`}>{alertMessage['message']}</div>
             }
      </div>
      </>
     )
-
 }
 
 export default Form
