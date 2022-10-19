@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import FormButton from '../components/FormButton'
-
 
 export class Home extends Component {
  
