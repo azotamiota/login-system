@@ -1,6 +1,7 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
+  padding: 2rem;
   text-align: center;
 }
 
@@ -40,25 +41,22 @@ ul {
 }
 
 .validation {
-
+  position: absolute;
+  bottom: 0;
+  left:0;
   text-align: start;
-  width: 50vw;
+  width: 100vw;
   margin: 30px auto 0 auto;
 
-}
-
-.main-container {
-  display: flex;
-  justify-content: space-between;
 }
 
 .form-container {
   max-width: 500px;
   min-width: 300px;
-  max-height: 500px;
+  max-height: 700px;
   width: 30%;
   height: 60%;
-  margin: 10px 30px;
+  margin: 100px auto;
   background-color: #FFFFFF;
 }
 
@@ -185,8 +183,3 @@ ul {
    margin-top: 1.5rem;
 }
 
-@media only screen and (max-width: 720px) {
-  .main-container {
-    flex-direction: column;
-  }
-}
