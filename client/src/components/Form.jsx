@@ -36,7 +36,6 @@ const Form = (props) => {
 
   const handleRegister = (event) => {
       event.preventDefault()
-      console.log('handleRegister got executed')
       fetch(`http://localhost:3000/register`, {
       method: 'POST',
       headers:{
@@ -62,7 +61,6 @@ const Form = (props) => {
     }
 
   const handleLogin = (event) => {
-    console.log('handleLogin executed')
     event.preventDefault()
     fetch(`http://localhost:3000/login`, {
     method: 'POST',

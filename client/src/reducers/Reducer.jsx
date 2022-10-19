@@ -23,7 +23,7 @@ const Reducer = (state=initState, action) => {
         case 'ALERT_MSG':
             return { ...state, alertMessage: action.payload};        
         case 'LOG_IN':
-            return { ...state, isLoggedIn: true};
+            return { ...state, isLoggedIn: action.payload};
         default:
             return state
     };
