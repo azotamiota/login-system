@@ -63,10 +63,10 @@ const login = async (req, res) => {
     try {        
         const mysql = require('mysql2/promise');
         const conn = await mysql.createConnection({
-            host: "localhost",
-            user: "root",
+            host: process.env.HOST,
+            user: process.env.USER,
             password:  process.env.PASSWORD,
-            database: 'mydb'
+            database: "mydb"
         });
         let response = await conn.execute(`SELECT * FROM users WHERE email = '${req.body.email}';`)
         if (response[0].length === 0) throw 'No user found with this email'
