@@ -36,7 +36,7 @@ const Form = (props) => {
 
   const handleRegister = (event) => {
       event.preventDefault()
-      fetch(`http://localhost:3000/register`, {
+      fetch(`http://13.41.189.81:3000/register`, {
       method: 'POST',
       headers:{
           'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ const Form = (props) => {
 
   const handleLogin = (event) => {
     event.preventDefault()
-    fetch(`http://localhost:3000/login`, {
+    fetch(`http://13.41.189.81:3000/login`, {
     method: 'POST',
     headers:{
         'Content-Type': 'application/json'
